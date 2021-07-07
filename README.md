@@ -1,5 +1,7 @@
 
-[![나홀로 나들이](https://i.esdrop.com/d/zqwd3cjsbg8t/4zPFFd1Mh8.png)](http://www.nanatravel.r-e.kr/)
+<center>
+<a href="http://www.nanatravel.r-e.kr/"><img src="https://i.esdrop.com/d/zqwd3cjsbg8t/4zPFFd1Mh8.png"></a>
+</center>
 
 ## 목차
 
