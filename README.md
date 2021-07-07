@@ -1,9 +1,5 @@
-<a href="http://www.nanatravel.r-e.kr/" align="center"><img src="https://i.esdrop.com/d/zqwd3cjsbg8t/4zPFFd1Mh8.png"></a>
 
-<h3 align="center">
-프로젝트 이름 : 나홀로 나들이
-</h3>
-
+[![나홀로 나들이](https://i.esdrop.com/d/zqwd3cjsbg8t/4zPFFd1Mh8.png)](http://www.nanatravel.r-e.kr/)
 
 ## 목차
 
