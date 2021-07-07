@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+div#Search-container { width:80%; }
+div#Search-container a {color:#d39e34;}
+div#Search-container table th { text-align:right; padding-right:10px; }
+div#Search-container table td { text-align:left; }
+div#Search-container input#phoneVerifyNum, div#Search-container input#phone {width:100%;}
+div#Search-container input#idSrchBtn, div#Search-container input#pwdSrchBtn {background-color:#f6bd3a; border-color:#d39e34;}
+div#Search-container button#phoneVerifyBtn, div#Search-container button#emailVerifyBtn {background-color:#ce8832; border-color: #d39e34;}
+
+/* 휴대폰 인증번호 체크 */
+div#memberPhone-container { position:relative; padding:0px; }
+div#memberPhone-container span.guide { display:none; font-size:12px; position:absolute; top:12px; right:10px; }
+div#memberPhone-container span.ok { color:green; }
+div#memberPhone-container span.error { color:red; }
+
+/* 이메일 인증코드 체크 */
+div#memberEmail-container { position:relative; padding:0px; }
+div#memberEmail-container span.guide { display:none; font-size:12px; position:absolute; top:12px; right:10px; }
+div#memberEmail-container span.ok { color:green; }
+div#memberEmail-container span.error { color:red; }

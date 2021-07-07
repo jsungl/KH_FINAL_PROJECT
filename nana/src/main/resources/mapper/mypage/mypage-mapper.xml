@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="course">
+	<resultMap type="course" id="courseMap">
+		<id column="no" property="no" />
+		<result column="id" property="id" />
+		<result column="title" property="title" />
+		<result column="travel_date" property="travelDate" />
+		<result column="travel_local" property="travelLocal" />
+		<result column="content" property="content" />
+		<result column="reg_date" property="regDate" />
+	</resultMap>
+	<resultMap type="coursePhoto" id="coursePhotoMap">
+		<id column="img_no" property="imgNo" />
+		<result column="id" property="id" />
+		<result column="no" property="no" />
+		<result column="original_filename" property="originalFilename" />
+		<result column="renamed_filename" property="renamedFilename" />
+		<result column="upload_date" property="uploadDate" />
+	</resultMap>
+	<resultMap type="courseExt" id="courseCollectionMap">
+		<id column="no" property="no" />
+		<result column="id" property="id" />
+		<result column="title" property="title" />
+		<result column="travel_date" property="travelDate" />
+		<result column="travel_local" property="travelLocal" />
+		<result column="content" property="content" />
+		<result column="reg_date" property="regDate" />
+		<collection property="coursePhoto" ofType="coursePhoto">
+			<id column="img_no" property="imgNo" />
+			<result column="photo_id" property="id" />
+			<result column="photo_no" property="no" />
+			<result column="original_filename" property="originalFilename" />
+			<result column="renamed_filename" property="renamedFilename" />
+			<result column="upload_date" property="uploadDate" />
+		</collection>
+	</resultMap>
+	<resultMap type="courseNo" id="courseNoMap">
+		<id column="course_no" property="courseNo" />
+		<result column="id" property="id" />
+		<result column="title" property="title" />
+		<result column="reg_date" property="regDate" />
+	</resultMap>
+	<resultMap type="courseNoList" id="courseNoListMap">
+		<id column="course_no" property="courseNo" />
+		<result column="id" property="id" />
+		<result column="title" property="title" />
+		<result column="reg_date" property="regDate" />
+	</resultMap>
+	<resultMap type="Board" id="boardMap">
+	</resultMap>
+	<resultMap type="BoardComment" id="boarCommentdMap">
+	</resultMap>
+	<resultMap type="MyBoardLike" id="boarLikeMap">
+	</resultMap>
+	<resultMap type="MyPlaceLike" id="placeLikeMap">
+		<result column="no" property="no" />
+		<result column="id" property="id" />
+		<result column="place_no" property="placeNo" />
+		<result column="place_name" property="placeName" />
+		<result column="address" property="address" />
+		<result column="content" property="content" />
+	</resultMap>
+	<select id="selectOneCourseCollection"
+		resultMap="courseCollectionMap">
+		select
+		tc.*,
+		cp.id "photo_id",
+		cp.no "photo_no",
+		cp.img_no,
+		cp.original_filename,
+		cp.renamed_filename,
+		cp.upload_date
+		from
+		travel_course tc
+		left join
+		course_photo cp
+		on tc.no = cp.no
+		where tc.title
+		= #{title}
+	</select>
+	<insert id="insertCourse">
+		insert into
+		travel_course
+		values(
+		#{id},
+		seq_travel_course_no.nextval,
+		#{title},
+		#{travelDate},
+		#{travelLocal},
+		#{content},
+		default
+		)
+		<selectKey keyProperty="no" resultType="_int" order="AFTER">
+			select
+			seq_travel_course_no.currval
+			from
+			dual
+		</selectKey>
+	</insert>
+	<insert id="insertPhoto">
+		insert into
+		course_photo
+		values(
+		#{id},
+		#{no},
+		seq_course_photo_no.nextval,
+		#{originalFilename},
+		#{renamedFilename},
+		default
+		)
+	</insert>
+	<select id="course.selectCourseList" resultType="courseNoExt">
+		select *
+		from
+		travel_course_no
+		where id = #{id}
+		order by reg_date
+	</select>
+	<delete id="deleteCourse">
+		delete from(
+		select *
+		from
+		travel_course
+		where no = #{no}
+		)
+	</delete>
+	<select id="selectCourseTitleByNo" resultType="string">
+		select title
+		from
+		travel_course_no
+		where course_no = #{courseNo}
+	</select>
+	<insert id="enrollListCourse">
+		insert into
+		travel_course_no
+		values(
+		#{id},
+		seq_travel_course_list_no.nextval,
+		#{title},
+		default
+		)
+		<selectKey keyProperty="courseNo" resultType="_int"
+			order="AFTER">
+			select
+			seq_travel_course_list_no.currval
+			from
+			dual
+		</selectKey>
+	</insert>
+	<select id="selectCourseNo" resultMap="courseNoMap">
+		select *
+		from
+		travel_course_no
+		where course_no = #{no}
+	</select>
+	<select id="selectCourseNoList" resultType="_int">
+		select count(*)
+		from
+		travel_course_no
+		where title = #{title}
+	</select>
+	<select id="findCourseNo" resultType="_int">
+		select course_no
+		from
+		travel_course_no
+		where title = #{title}
+	</select>
+	<delete id="deleteCourseNo">
+		delete from(
+		select *
+		from
+		travel_course_no
+		where title =
+		#{title}
+		)
+	</delete>
+	<delete id="deleteCourseAll">
+		delete from(
+		select *
+		from
+		travel_course
+		where title =
+		#{title}
+		)
+	</delete>
+	<select id="selectCourseHeadTitleList" resultMap="courseNoListMap">
+		select *
+		from
+		travel_course_no
+		where id = #{id}
+		order by
+		reg_date
+	</select>
+	<select id="selectCourseIdList" resultMap="courseMap">
+		select *
+		from
+		travel_course
+		where id = #{id}
+		order by travel_date
+	</select>
+	<select id="selectCourseTotalContents" resultType="_int">
+		select
+		count(*)
+		from
+		travel_course_no
+		where id = #{id}
+	</select>
+	<select id="selectBoardIdList" resultMap="boardMap">
+		select *
+		from BOARD
+		where id = #{id}
+	</select>
+	<select id="selectBoardTotalContents" resultType="_int">
+		select
+		count(*)
+		from
+		BOARD
+		where id = #{id}
+	</select>
+	<select id="selectBoardCommentIdList"
+		resultMap="boarCommentdMap">
+		select *
+		from BOARD_COMMENT
+		where id = #{id}
+	</select>
+	<select id="selectBoardCommentTotalContents" resultType="_int">
+		select
+		count(*)
+		from
+		BOARD_COMMENT
+		where id = #{id}
+	</select>
+	<select id="selectBoardLikeList" resultMap="boarLikeMap">
+		select bl.no,
+		bl.id,
+		bl.board_no,
+		b.title,
+		b.content,
+		b.category,
+		b.write_date
+		from
+		BOARD_LIKE bl
+		left join
+		BOARD b
+		on bl.board_no = b.board_no
+		where bl.id = #{id}
+	</select>
+	<select id="selectboardLikeContents" resultType="_int">
+		select
+		count(*)
+		from
+		BOARD_LIKE
+		where id = #{id}
+	</select>
+	<select id="selectPlaceLikeList" resultMap="placeLikeMap">
+		select pl.no,
+		pl.id,
+		pl.place_no,
+		p.place_name,
+		p.address,
+		p.content
+		from
+		PLACE_LIKE pl
+		left join
+		PLACE p
+		on pl.place_no = p.place_no
+		where pl.id = #{id}
+	</select>
+	<select id="selectPlaceLikeTotalContents" resultType="_int">
+		select
+		count(*)
+		from
+		PLACE_LIKE
+		where id = #{id}
+	</select>
+	<update id="memberUpdate">
+		UPDATE member
+		<set>
+			<if test="password != null">password=#{password},</if>
+			<if test="name != null">name=#{name},</if>
+			<if test="gender != null">gender=#{gender},</if>
+			<if test="birthday != null">birthday=#{birthday},</if>
+			<if test="email != null">email=#{email},</if>
+			<if test="phone != null">phone=#{phone},</if>
+			<if test="preference != null">preference=#{preference}</if>
+		</set>
+		WHERE id= #{id}
+	</update>
+</mapper>

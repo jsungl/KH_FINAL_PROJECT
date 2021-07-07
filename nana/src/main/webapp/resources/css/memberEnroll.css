@@ -1,0 +1,26 @@
+@charset "UTF-8";
+
+/* 회원 가입 */
+div#enroll-container { width:600px; }
+div#enroll-container input, div#enroll-container select { margin-bottom:10px; }
+div#enroll-container table th { text-align:right; padding-right:10px; }
+div#enroll-container table td { text-align:left; }
+
+
+
+/* 중복아이디체크관련 */
+div#memberId-container { position:relative; padding:0px; }
+div#memberId-container span.guide { display:none; font-size:12px; position:absolute; top:12px; right:10px; }
+div#memberId-container span.ok { color:green;}
+div#memberId-container span.error { color:red;}
+/* 이메일 중복체크관련 */
+div#memberEmail-container { position:relative; padding:0px; }
+div#memberEmail-container span.guide { display:none; font-size:12px; position:absolute; top:12px; right:10px; }
+div#memberEmail-container span.ok { color:green; }
+div#memberEmail-container span.error { color:red; }
+
+/* 휴대폰 전화번호 중복체크관련 */
+div#memberPhone-container { position:relative; padding:0px; }
+div#memberPhone-container span{ display:none; font-size:12px; position:absolute; top:12px; right:10px; }
+div#memberPhone-container span#phoneOk{ color:green; }
+div#memberPhone-container span#phoneError{ color:red; }

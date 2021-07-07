@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="place">
+
+<!-- ///////////////////// youngmi //////////////////// -->
+
+	<!-- <select id="selectPlaceList" resultType="place"> -->
+	<select id="selectPlaceListWithPhoto" resultMap="placeWithPhoto">
+	
+<!-- 	select place_no, category_code, local_code, local_name, place_name, address, content, category_name, from_user, min(renamed_filename) renamed_filename
+	from (
+	    select *
+	            from(
+	                select * 
+	                from place join local 
+	                    using(local_code)
+	            ) join category
+	                using(category_code)
+	    ) join place_photo
+	    using(place_no) -->
+	    select place_no, place_name, local_code, local_name, category_code, category_name, content, from_user, nvl(place_like_count, 0)place_like_count, renamed_filename, nvl(board_count, 0)board_count
+		from place join category using(category_code) join local using(local_code)
+		    left join (
+		        select place_no, count(*) place_like_count
+		        from place_like
+		        group by place_no
+		    ) using(place_no)
+		    left join (
+		        select place_no, min(renamed_filename) renamed_filename
+		        from place_photo 
+		        group by place_no
+		    ) using(place_no)
+		    left join (
+		        select place_no, count(*) board_count
+		        from board
+		        group by place_no
+		        having place_no > 0
+		    ) using(place_no)
+   		<where>
+			<if test="categoryCode != null and categoryCode != 'C0'">
+				category_code = #{categoryCode}
+			</if>
+			<if test="localCode != null and localCode != 'L0'">
+				and local_code = #{localCode}
+			</if>
+		</where>
+		<if test="sort == 'place-name'">
+			order by place_name
+		</if>
+		<if test="sort == 'like-count'">
+			order by place_like_count desc
+		</if>
+		<if test="sort == 'board-count'">
+			order by board_count desc
+		</if>
+<!-- 	
+		select *
+		from(
+		    select * 
+		    from place join local 
+		        using(local_code)
+		) join category
+		    using(category_code)
+		<where>
+			<if test="categoryCode != null and categoryCode != 'C0'">
+				category_code = #{categoryCode}
+			</if>
+			<if test="localCode != null and localCode != 'L0'">
+				and local_code = #{localCode}
+			</if>
+		</where> -->
+	</select>
+	
+	<resultMap type="map" id="placeWithPhoto">
+	<!-- 
+	 place_no, 
+	 category_code, 
+	 local_code, place_name, 
+	 address, content, category_name,
+	  min(renamed_filename)
+	 -->
+	 <id column="place_no" property="placeNo"/>
+	<result column="place_name" property="placeName" />
+	<result column="local_code" property="localCode" />
+	<result column="local_name" property="localName" />
+	<result column="category_code" property="categoryCode" />
+	<result column="category_name" property="categoryName" />
+	<result column="content" property="content" />
+	<result column="from_user" property="fromUser" />
+	<result column="place_like_count" property="placeLikeCount" />
+	<result column="renamed_filename" property="renamedFilename" />
+	<result column="board_count" property="boardCount" />
+	
+	</resultMap>
+	
+	<select id="selectCategoryName" resultType="string">
+		select category_name from category where category_code = #{cattegoryCode}
+	</select>
+	
+	<select id="selectLocalName" resultType="string">
+		select local_name from local where local_code = #{localCode}
+	</select>
+
+	
+<!-- 	<select id="selectPlaceListByLocalCode" resultType="place">
+		select *
+		from(
+		    select * 
+		    from place join local 
+		        using(local_code)
+		) join category
+		    using(category_code)
+		where local_code = #{localCode}
+	</select> -->
+	
+	<select id="selectLocalPhotoList" resultType="localPhoto">
+		select * from local_photo where local_code = #{localCode}
+	</select>
+	
+	<select id="selectCategoryList" resultMap="categoryMap">
+		select * from category order by category_code
+	</select>
+	
+	<select id="selectLocalList" resultMap="localMap">
+		select * from local order by local_code
+	</select>
+	
+	<select id="selectPlaceByName" resultType="place">
+		select *
+		from place
+		where place_name = #{placeName}
+	</select>
+	
+	
+<!-- 	<resultMap id="placeMap" type="place">
+		<id column="place_no" property="placeNo" />
+		<result column="place_name" property="placeName" />
+		<result column="local_code" property="localCode" />
+		<result column="category_code" property="categoryCode"/>	
+		<result column="address" property="address" />
+		<result column="content" property="content" />
+		<result column="like_count" property="likeCount" />
+		<result column="comu_count" property="comuCount" />
+	</resultMap>  -->
+	
+	<!-- local 테이블 조회 시 사용 -->
+	<resultMap type="map" id="localMap">
+		<id column="local_code" property="localCode"/>
+		<result column="local_name" property="localName"/>
+	</resultMap>
+	
+	<!-- category 테이블 조회 시 사용 -->
+	<resultMap type="map" id="categoryMap">
+		<id column="category_code" property="categoryCode"/>
+		<result column="category_name" property="categoryName"/>
+	</resultMap>
+
+<!-- ////////////////////////////////////////////////// -->	
+	
+<!-- ///////////////////// yunjin //////////////////// -->
+<!-- 	<select id="selectOnePlace" resultType="place">
+		select *
+		from place
+		where place_no = #{no}
+	</select> -->
+	
+<!-- 	<select id="selectOnePlace" resultType="place">
+		select p.*, l.local_name, c.category_name
+		from place p inner join local l
+		    on p.local_code = l.local_code
+		        inner join category c
+		    on p.category_code = c.category_code
+		where place_no = #{placeNo}
+	</select> -->
+	
+	<select id="selectOnePlace" resultMap="placeCollectionMap">
+		select p.*, l.local_name, c.category_name, h.*, nvl(z.board_count, 0)board_count, nvl(w.place_like_count, 0) place_like_count
+		from place p 
+        left join place_photo h
+        on p.place_no = h.place_no
+        left join local l
+		    on p.local_code = l.local_code
+		        left join category c
+		    on p.category_code = c.category_code
+                left join (
+                    select place_no,  count(*) board_count
+                    from board
+                    group by place_no
+                    having place_no > 0
+                ) z on p.place_no = z.place_no
+                left join (
+                    select place_no, count(*) place_like_count
+                    from place_like
+                    group by place_no
+                    order by place_no
+                ) w on p.place_no = w.place_no
+		where p.place_no = #{placeNo}
+	</select>
+	
+	<resultMap type="placeExt" id="placeCollectionMap">
+		<id column="place_no" property="placeNo"></id>
+		<result column="place_name" property="placeName"/>
+		<result column="local_code" property="localCode"/>
+		<result column="category_code" property="categoryCode"/>
+		<result column="address" property="address"/>
+		<result column="content" property="content"/>
+		<result column="x_coord" property="xCoord"/>
+		<result column="y_coord" property="yCoord"/>
+		<result column="local_name" property="localName"/>
+		<result column="category_name" property="categoryName"/>
+		<result column="from_user" property="fromUser"/>
+		<result column="place_like_count" property="placeLikeCount"/>
+		<result column="board_count" property="boardCount"/>
+		<collection property="photoList" ofType="placePhoto">
+			<id column="place_photo_no" property="placePhotoNo"/>
+			<result column="place_no" property="placeNo"/>
+			<result column="original_filename" property="originalFilename" />
+			<result column="renamed_filename" property="renamedFilename" />
+		</collection>
+	</resultMap>
+	
+	<select id="selectAllPlaceList" resultType="place">
+		select p.*, l.local_name, c.category_name
+		from place p inner join local l
+		    on p.local_code = l.local_code
+		        inner join category c
+		    on p.category_code = c.category_code
+		order by place_no desc
+	</select>
+	
+	<select id="selectAllPlacePhoto" resultType="placePhoto">
+		select *
+		from place_photo
+		where place_no = #{placeNo}
+	</select>
+	
+	<select id="selectPlaceTotalContents" resultType="_int">
+		select count(*) from place
+	</select>
+	
+	<update id="updatePlace">
+		update place
+		set
+			place_name = #{placeName},
+			local_code = #{localCode},
+			category_code = #{categoryCode},
+			address = #{address},
+			content = #{content},
+			x_coord = #{XCoord},
+			y_coord = #{YCoord}
+		where place_no = #{placeNo}
+	</update>
+	
+	<insert id="insertPlace">
+		insert into
+			place
+		values(
+			seq_place_no.nextval,
+			#{placeName},
+			#{localCode},
+			#{categoryCode},
+			#{address},
+			#{content},
+			#{XCoord},
+			#{YCoord},
+			<if test="fromUser == 1">
+			#{fromUser}
+			</if>
+			<if test="fromUser != 1">
+			0
+			</if>
+		)
+		<selectKey keyProperty="placeNo" resultType="_int" order="AFTER">
+			select seq_place_no.currval from dual
+		</selectKey>
+	</insert>
+	
+	
+	<insert id="insertPlacePhoto">
+		insert into
+		place_photo
+		values (
+			seq_place_photo_no.nextval,
+			#{placeNo},
+			#{originalFilename},
+			#{renamedFilename}
+		)
+	</insert>
+	
+	<delete id="deleteOnePlace">
+		delete
+		from place
+		where place_no = #{placeNo}
+	</delete>
+	
+	<delete id="deletePlacePhoto">
+		delete
+		from place_photo
+		where place_no = #{placeNo}
+	</delete>
+	
+	<select id="selectPlaceLiked" resultType="PlaceLike">
+		select *
+		from place_like
+		where
+		place_no = #{placeNo} and id = #{id}
+	</select>
+	
+	<delete id="deletePlaceLike">
+		delete
+		from place_like
+		where place_no = #{placeNo}
+			and id = #{id}
+	</delete>
+	
+	<insert id="insertPlaceLike">
+		insert
+		into place_like
+		values (
+		seq_place_like_no.nextval,
+		#{id},
+		#{placeNo}
+		)
+	</insert>
+	
+	<select id="totalPlaceLikeCnt" resultType="_int">
+		select count(*)
+		from place_like
+		where place_no = #{placeNo}
+	</select>
+	
+	<select id="totalboardCnt" resultType="_int">
+		select count(*)
+		from board
+		where place_no = #{placeNo}
+	</select>
+	
+<!-- ////////////////////////////////////////////////// -->
+  
+  	<select id="selectLikePlaceList" resultType="place">
+  		select 
+  			P.place_no, P.place_name, P.address
+		from 
+			place_like PL join place P on PL.place_no = P.place_no
+  		where
+  			PL.id = #{id}
+  	</select>
+  
+  
+  
+</mapper>

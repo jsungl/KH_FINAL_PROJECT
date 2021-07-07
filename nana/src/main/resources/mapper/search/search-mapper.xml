@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="search">
+
+	<select id="selectMainPlaceList" resultMap="placeExtMap">
+	select 
+	    h.place_no, p.place_name, p.local_code, p.category_code, p.address,
+	    p.content, p.x_coord, p.y_coord,
+	    max(h.place_photo_no) place_photo_no,
+	    max(h.renamed_filename) renamed_filename
+	from 
+	    place p left join place_photo h
+	    on p.place_no = h.place_no
+	where 
+	    h.place_no in 
+	    <foreach collection="list" item="item" open="(" separator="," close=")">
+				#{item}
+		</foreach>
+	group by 
+	    h.place_no, p.place_no, p.place_name, p.content, p.local_code, 
+		p.category_code, p.address, p.x_coord, p.y_coord
+	</select>
+	<resultMap type="placeExt" id="placeExtMap">
+		<id column="place_no" property="placeNo"/>
+		<result column="place_name" property="placeName"/>
+		<result column="local_code" property="localCode"/>
+		<result column="category_code" property="categoryCode"/>
+		<result column="address" property="address"/>
+		<result column="content" property="content"/>
+		<result column="x_coord" property="xCoord"/>
+		<result column="y_coord" property="yCoord"/>
+		<collection property="photoList" ofType="placePhoto">
+			<id column="place_photo_no" property="placePhotoNo"/>
+			<result column="renamed_filename" property="renamedFilename"/>
+		</collection>
+	</resultMap>
+	
+	<select id="selectKeyword" resultType="string">
+ 		select
+ 			keyword
+ 		from
+ 			search_keyword
+ 		where
+ 			keyword like #{searchKeyword}
+ 	</select>
+
+	<update id="updateKeyword">
+		update
+			search_keyword
+		set
+			count = count + 1
+		where
+			keyword = #{searchKeyword}
+	</update>
+	
+ 	<insert id="insertKeyword">
+	 	insert into
+	 		search_keyword
+	 	values(
+	 			seq_keyword_no.nextval,
+	 			#{searchKeyword},
+	 			default,
+	 			default
+	 			)
+ 	</insert> 	
+
+	<select id="selectSearchPlaceNoList" resultType="_int">
+		select
+			place_no
+		from
+			place
+		<where>
+			place_name like '%' || #{searchKeyword} || '%' OR
+			content like '%' || #{searchKeyword} || '%' OR
+			address like '%' || #{searchKeyword} || '%'
+		</where>
+	</select>
+
+	<select id="selectTop5KeywordList" resultType="string">
+ 		select
+			keyword
+		from
+			(select * from search_keyword order by count desc)
+		where 
+			rownum &lt;= 5	
+ 	</select>
+ 	
+ 	<select id="selectPlaceList" resultMap="placeExtMap">
+		select 
+		    p.place_no, p.place_name, p.local_code, p.category_code, p.address,
+		    p.content, p.x_coord, p.y_coord,
+		    max(h.place_photo_no) place_photo_no,
+		    max(h.renamed_filename) renamed_filename
+		from 
+		    place p left join place_photo h
+		    on p.place_no = h.place_no
+		where 
+		    h.place_no in 
+		    <foreach collection="list" item="item" open="(" separator="," close=")">
+					#{item}
+			</foreach>
+			or p.place_no in
+			<foreach collection="list" item="item" open="(" separator="," close=")">
+					#{item}
+			</foreach>
+		group by 
+		    h.place_no, p.place_no, p.place_name, p.content, p.local_code, 
+			p.category_code, p.address, p.x_coord, p.y_coord
+	</select>
+ 	
+ 	<select id="selectDetailSearchPlaceNoList" resultType="_int">
+ 		select
+ 			place_no
+ 		from 
+ 			place
+ 		<where>
+ 			local_code = #{endPlace} and category_code in
+			<foreach collection="category" item="arr" open="(" separator="," close=")">
+				#{arr}
+			</foreach>
+		</where>
+ 	</select>
+ 	
+	<select id="selectThemePlaceList" resultMap="placeExtMap">
+		select
+		    p.place_no, p.place_name, p.local_code, p.category_code, p.address,
+		    p.content, p.x_coord, p.y_coord,
+		    max(h.place_photo_no) place_photo_no,
+		    max(h.renamed_filename) renamed_filename 
+		from
+			(select * from
+				(select * from place order by dbms_random.value)
+			where 
+				rownum &lt;= 6) p left join place_photo h 
+			on p.place_no = h.place_no
+		group by 
+		    h.place_no, p.place_no, p.place_name, p.content, p.local_code, 
+		    p.category_code, p.address, p.x_coord, p.y_coord
+	</select>
+ 	
+ 	<select id="selectBoardLikeNoList" resultType="_int">
+ 		select
+		    board_no
+		from (
+		    select count(*) cnt, board_no
+		    from board_like 
+		    group by board_no
+		    order by cnt desc
+		)where rownum &lt;= 3
+ 	</select>
+ 	
+ 	<select id="selectBoardLikeList" resultType="board">
+ 		select 
+			*
+		from
+			board
+		where board_no in 
+			<foreach collection="list" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+ 	</select>
+ 	 	
+	<select id="selectPlaceLikeNoList" resultType="_int">
+		select
+		    place_no
+		from (
+		    select count(*) cnt, place_no
+		    from place_like 
+		    group by place_no
+		    order by cnt desc
+		)where rownum &lt;= 3
+	</select>
+
+	<select id="selectPlacePhotoList"  parameterType="java.util.List" resultType="placePhoto">
+		select 
+	   		place_no, max(place_photo_no)place_photo_no, max(renamed_filename)renamed_filename
+		from 
+	    	place_photo
+		where 
+			place_no in 
+			<foreach collection="list" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		group by place_no
+		order by place_no
+	</select> 
+
+	<select id="selectPlaceSortList" resultMap="placeExtSort">
+		select 
+		    place_no, place_name, content,
+		    renamed_filename, 
+		    from_user,
+		    nvl(place_like_count, 0)place_like_count, 
+		    nvl(board_count, 0)board_count
+		from 
+		    place left join (
+				        select place_no, count(*) place_like_count
+				        from place_like
+				        group by place_no
+				    ) using(place_no)
+				    left join (
+				        select place_no, min(renamed_filename) renamed_filename
+				        from place_photo 
+				        group by place_no
+				    ) using(place_no)
+				    left join (
+				        select place_no, count(*) board_count
+				        from board
+				        group by place_no
+				        having place_no > 0
+				    ) using(place_no)
+		where place_no in
+			<foreach collection="list" item="item" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		<if test="sort == 'place_name'">
+		order by place_name
+		</if>
+		<if test="sort == 'like-count'">
+		order by place_like_count desc
+		</if>
+		<if test="sort == 'board-count'">
+		order by board_count desc
+		</if>
+	</select>
+	<resultMap type="placeExt" id="placeExtSort">
+		<id column="place_no" property="placeNo"/>
+		<result column="place_name" property="placeName"/>
+		<result column="from_user" property="fromUser"/>
+		<result column="content" property="content"/>
+		<result column="place_like_count" property="placeLikeCount"/>
+		<result column="board_count" property="boardCount"/>
+		<collection property="photoList" ofType="placePhoto">
+			<id column="place_photo_no" property="placePhotoNo"/>
+			<result column="renamed_filename" property="renamedFilename"/>
+		</collection>
+	</resultMap>
+
+
+	<select id="selectPlaceListByName" resultType="place">
+	select * 
+	from place
+	where place_name like '%' || #{keyword} || '%'
+	</select>
+	
+	<select id="selectAllPlaceList" resultMap="placePetMap">
+		select
+			 P.place_no,P.place_name,P.local_code,P.category_code,P.address,P.content,P.x_coord,P.y_coord,PE.pet_check
+		from 
+			place P join place_pet PE on P.place_no = PE.place_no
+	</select>
+	<resultMap type="placePet" id="placePetMap">
+		<id column="place_no" property="placeNo"/>
+		<result column="place_name" property="placeName"/>
+		<result column="local_code" property="localCode"/>
+		<result column="category_code" property="categoryCode"/>
+		<result column="address" property="address"/>
+		<result column="content" property="content"/>
+		<result column="x_coord" property="xCoord"/>
+		<result column="y_coord" property="yCoord"/>
+		<result column="pet_check" property="pet"/>
+	</resultMap>
+
+	<select id="selectPlaceListByDetailSearch1" resultMap="placePetMap">
+		select
+			P.place_no,P.place_name,P.local_code,P.category_code,P.address,P.content,P.x_coord,P.y_coord,PE.pet_check
+		from
+			place P join place_pet PE on P.place_no = PE.place_no
+		<where>
+ 			P.local_code = #{endPlace}
+ 			
+ 			<if test="category != null">
+ 				and category_code in
+				<foreach collection="category" item="arr" open="(" separator="," close=")">
+					#{arr}
+				</foreach>
+ 			</if>
+ 			
+ 			<if test="pet != null">
+ 				and PE.pet_check = #{pet}
+ 			</if>
+ 			 
+		</where>
+	</select>
+
+
+
+
+
+</mapper>

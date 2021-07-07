@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+
+	<select id="selectOneMember" resultMap="memberVoMap">
+		select
+			*
+		from
+			member
+		where
+			id = #{id}
+	</select>  
+	<resultMap type="member" id="memberVoMap">
+		<result column="preference" property="preference" typeHandler="stringArrayTypehandler"></result>
+	</resultMap>
+	
+	<select id="selectOneMemberByEmail" resultMap="memberVoMap">
+		select
+			*
+		from
+			member
+		where
+			email = #{email}
+	</select>
+	
+	<select id="selectOneMemberByPhone" resultMap="memberVoMap">
+		select
+			*
+		from
+			member
+		where
+			phone = #{phone}
+	</select>
+	
+	<insert id="insertMember">
+		
+		{call
+			declare
+			begin
+				insert into
+					member
+				values(
+					#{id},
+					#{password},
+					#{name},
+					#{gender},
+					#{birthday},
+					#{email},
+					#{phone},
+					#{preference},
+					#{sso},
+					default
+				);
+				insert into 
+					authority 
+				values(
+					#{id}, 
+					default
+				);
+			end
+		}
+	</insert>
+	
+	<insert id="insertAuthority">
+		insert into 
+			authority 
+		values(
+			#{id}, 
+			default
+		)
+	</insert>
+  
+  	
+  	<select id="loadUserByUserEmail" resultMap="memberMailMap">
+		select
+			*
+		from
+			member
+		where
+			email = #{email}
+	
+	</select>
+  	<resultMap type="member" id="memberMailMap">
+		<id column="id" property="id"/>
+		<result column="password" property="password"/>
+		<result column="name" property="name"/>
+		<result column="gender" property="gender"/>
+		<result column="birthday" property="birthday"/>
+		<result column="email" property="email"/>
+		<result column="phone" property="phone"/>
+		<result column="preference" property="preference"/>		
+		<result column="sso" property="sso"/>		
+		<result column="enroll_date" property="enrollDate"/>		
+		<collection property="authorities"
+					javaType="arrayList" 
+					column="id"
+					ofType="simpleGrantedAuthority"
+					select="selectAuthorities"/>
+	</resultMap>
+  	<select id="selectAuthorities" resultMap="authoritiesMap">
+		select
+			*
+		from
+			authority
+		where
+			id = #{id}
+	</select>
+	<resultMap id="authoritiesMap" type="simpleGrantedAuthority">
+		<constructor>
+			<arg column="authority" javaType="string"/>
+		</constructor>
+	</resultMap>
+	
+	
+	
+	<update id="updateMember">
+		update
+				member
+		set
+				password = #{password}
+		where
+				id = #{id}
+	</update>
+	
+	
+	<select id="selectTotalMember" resultType="_int">
+		select
+			count(*)
+		from
+			member
+	</select>
+	
+	<select id="selectMemberList" resultType="member">
+		select
+			*
+		from
+			member
+		where not id = 'admin'			
+	</select>
+	
+	<delete id="deleteMember">
+		{call
+			declare
+			begin
+				delete from authority where id = #{id};
+				delete from member where id = #{id};
+			end
+		}
+	</delete>
+	
+  
+</mapper>

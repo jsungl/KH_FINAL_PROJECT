@@ -1,0 +1,181 @@
+@CHARSET "UTF-8";
+
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap');
+
+html{overflow-x: hidden;}
+body {font-family:"휴먼모음T"; overflow-x: hidden;}
+body.modal-open{padding-right: 0px !important;}
+footer,aside {padding:10px 0;}
+/*div, section, header, aside, footer {padding:10px;} /
+
+/** 전체컨테이너 **/
+/* div#container    {padding:10px 0;} */
+
+/** 로그인화면 **/
+#loginFrm a{
+	text-decoration:none;
+	color:#d39e34;
+}
+
+#loginBtn {
+	color:#256d69;
+	border-color:#256d69;
+}
+#loginBtn:hover {
+	background-color: #256d69;
+	border-color:#fff;
+	color:#fff;
+}
+
+
+/** header **/
+
+/* .header{
+	transition: top 0.5s ease;
+}*/
+
+.header-wrapper{
+	border-bottom: 1px solid #e0e0e0;
+}
+
+.header-wrapper h1{
+	font-family: 'Nanum Pen Script', cursive;
+}
+
+.header-hide{
+     position: fixed;
+     top: 0;
+     width: 100%;
+     background-color: #fff;
+     z-index:100;
+}
+
+#loading{
+	max-width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	position: fixed;
+	display: block;
+	opacity: 0.5;
+	background:#000000;
+	z-index: 999;
+	text-align: center;
+}
+
+#loading img{
+	position: absolute;
+	top: 30%;
+	left: 45%;
+	z-index: 100;
+}
+
+/** content **/
+section#content        {min-height:600px;}
+
+/* 슬라이드 화살표 위치 조정 */
+.carousel-control-next, .carousel-control-prev{
+	width: 5%;
+}
+
+
+/* 메인슬라이드 */
+/* .main-slide .carousel-item{ height: 400px; }
+#main-carousel > .carousel-caption > h5, p{ overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } */
+
+/* 최근 검색어 */
+.search-word>.col-lg-2 {
+    max-width: fit-content;
+    display: inline-block;
+    background-color: lightyellow;
+    text-align: center;
+    border-radius: 30px;
+    line-height: 20px;
+    padding: 20px 20px;
+    margin-bottom: 10px;
+    border: 3px dashed yellow;
+    color: olive;
+}
+
+/* 최근 본 장소 */
+#recipeCarousel p{
+	margin: 0 auto;
+	text-align: center;
+	font-size: 130%;
+    background-color: lightyellow;
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+}
+
+#recipeCarousel img { height: 20vw; object-fit: cover;} 
+
+@media (max-width: 768px) {
+	
+	#recipeCarousel img { height: 60vw; object-fit: cover;} 
+	
+    #recipeCarousel .carousel-inner .carousel-item > div {
+        display: none;
+    }
+    #recipeCarousel .carousel-inner .carousel-item > div:first-child {
+        display: block;
+    }
+
+}
+
+#recipeCarousel .carousel-inner .carousel-item.active,
+#recipeCarousel .carousel-inner .carousel-item-next,
+#recipeCarousel .carousel-inner .carousel-item-prev {
+    display: flex;
+}
+
+/* display 3 */
+@media (min-width: 768px) {
+          
+    #recipeCarousel .carousel-inner .carousel-item-right.active,
+    #recipeCarousel .carousel-inner .carousel-item-next {
+    transform: translateX(33.333%);
+    }
+    
+    #recipeCarousel .carousel-inner .carousel-item-left.active, 
+    #recipeCarousel .carousel-inner .carousel-item-prev {
+    transform: translateX(-33.333%);
+    }
+}
+
+#recipeCarousel .carousel-inner .carousel-item-right,
+#recipeCarousel .carousel-inner .carousel-item-left{ 
+transform: translateX(0);
+}
+
+
+/* 상세검색 */
+.accordion {margin:10px;}
+#detailSrch{margin:0 auto; padding:0;}
+
+/* 랜덤 테마 */
+#random-theme img{ height:20vw; object-fit: cover; }
+#random-theme h5 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* 게시글 top3 */
+#top3-board .card { height: 20vw; overflow: hidden; text-overflow: ellipsis; }
+/* #top3-board p, h4 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } */
+
+/* 장소 top3 */
+#top3-place img { height: 20vw; object-fit: cover; } 
+#top3-place p, h4 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/** footer **/
+footer    {background-color:#f8f9fa; background-clip:content-box; clear:both; height:95px; text-align:center;}
+footer p     {margin-top:30px;}
+
+/** 알림 **/
+.alarm {
+	color: rgba(0,0,0,.5);
+	text-decoration: none;
+}
+
+.alarm:hover {
+	color: rgba(0,0,0,.7);
+	text-decoration: none;
+}

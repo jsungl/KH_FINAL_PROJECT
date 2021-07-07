@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans 
+		xmlns="http://www.springframework.org/schema/security" 
+		xmlns:beans="http://www.springframework.org/schema/beans" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:context="http://www.springframework.org/schema/context" 
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+
+
+	<!--  #8.2. BCryptPasswordEncoder 빈 등록  -->
+	<beans:bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></beans:bean>
+	
+	
+	<!-- 권한체크 설정 -->
+	<http security="none" pattern="/resources/**"/> <!-- resources로 시작하는애들(정적파일들:css,js등) 권한검사 x -->
+	<http auto-config="true">
+		<intercept-url pattern="/" access="permitAll"/> <!-- 로그인안해도 접근가능 -->
+		<intercept-url pattern="/index.jsp" access="permitAll"/> <!-- 로그인안해도 접근가능 -->
+		<intercept-url pattern="/member/memberLogin.do" access="isAnonymous()"/> <!-- 인증한상태에서 접근불가 --> 
+		<intercept-url pattern="/member/memberEnroll.do" access="isAnonymous()"/>
+		
+		<!-- <intercept-url pattern="/mypage/**" access="hasRole('USER')"/> -->
+		
+		<intercept-url pattern="/board/boardForm.do" access="hasRole('USER')"/>
+		<intercept-url pattern="/board/selectPlaceBoardForm.do" access="hasRole('USER')"/>
+		<intercept-url pattern="/member/moreInfo.do" access="isAnonymous()"/>
+		<intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>
+		
+		
+		<!--
+			 login-page : 로그인 폼페이지 요청 
+			 login-processing-url : 로그인폼 제출페이지(로그인폼액션값), 핸들러작성 필요없음.
+			 username-parameter / password-parameter : 
+			 	제출폼에서 id/pw에 해당하는 name값이 username/password가 아닌경우
+		-->
+		<form-login login-page="/member/memberLogin.do" 
+					login-processing-url="/member/memberLoginProcess.do"
+					username-parameter="id"
+					password-parameter="password"
+					authentication-success-handler-ref="loginSuccessHandler"
+					/>
+		<logout 
+			logout-url="/member/memberLogout.do"
+			logout-success-url="/"
+			invalidate-session="true"/> <!-- 로그아웃후 인덱스페이지로 이동,세션값 무효화 -->
+			
+		<!-- 
+			remember-me : session-timeout(기본값30분) 시간이상으로 사용자 정보를 관리하기위해 사용
+			token-validity-seconds : remember-me 토큰 유효시간 60 * 60 * 24 * 14(초단위)	
+			ex)1209600 -> 2주
+		-->
+		<remember-me data-source-ref="realDataSource"
+					 token-validity-seconds="1209600"/>
+					 
+		<!-- 권한없는 페이지 접근시 처리 -->
+		<access-denied-handler error-page="/error/accessDenied.do"/>
+			
+	</http>
+	
+	<!-- 인증/권한 검사 manager빈 설정 -->
+	<authentication-manager>
+		<authentication-provider user-service-ref="securityService">
+			<password-encoder ref="bcryptPasswordEncoder"/>
+		</authentication-provider>
+	
+	</authentication-manager>
+
+	<!-- UserDetails구현체 빈등록 -->
+	<context:component-scan base-package="com.kh.nana.security"/>
+	
+	
+	
+	<beans:bean id="loginSuccessHandler" class="com.kh.nana.common.LoginSuccessHandler">
+    	<beans:property name="defaultUrl" value="/"/>
+	</beans:bean>
+
+
+	
+	
+	
+	
+	
+	
+	
+</beans:beans>
+	
+	

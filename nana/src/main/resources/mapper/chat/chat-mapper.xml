@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="chat">
+
+	<insert id="insertChat">
+	insert into chat
+	values(seq_chat_no.nextval, #{fromId}, #{toAddress}, #{message}, #{regTime})
+	</insert>
+	
+	<select id="selectChatByAddress" resultType="chat">
+	select *
+	from chat
+	where to_address = #{address}
+	order by chat_no
+	</select>
+	
+	<select id="selectChatIdList" resultType="string">
+	select distinct from_id
+	from chat
+	where from_id != 'admin'
+	</select>
+  
+</mapper>

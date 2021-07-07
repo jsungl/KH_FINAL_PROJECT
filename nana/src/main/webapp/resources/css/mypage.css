@@ -1,0 +1,527 @@
+div {
+    margin: 0;
+    margin: 0 auto;
+    padding: 0;
+}
+
+span {
+    text-align: center;
+    margin: 0 auto;
+}
+
+.vw {
+    font-size: 1vw;
+}
+
+div#my-title {
+    height: 60px;
+    padding: 20px;
+    border-bottom: 1px solid black;
+}
+
+.first-div {
+    height: 240px;
+    background-color: blueviolet;
+}
+
+.profile-circle {
+    width: 140px; 
+    height: 140px; 
+    background-color: rgb(172, 172, 172); 
+    border-radius: 100px; 
+    text-align: center;
+}
+
+div#profile input {
+    padding: 10px;
+    background-color: rgb(255, 122, 122);
+    color: #fff;
+    border: 0;
+    border-radius: 8px;
+}
+
+div#profile input:hover {
+    background-color: rgb(255, 56, 56);
+}
+
+div#category .col {
+    padding: 20px;
+    background-color: #f6bd3a;
+    color: rgb(41, 41, 41);
+    border-right: 1px solid #fff;
+}
+
+div#category .col:hover {
+    background-color: rgb(255, 167, 35);
+    color: #fff;
+}
+
+div#my-post {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+div#my-post select {
+    margin: 0 0 0 10px;
+    padding: 3px;
+    float: right;
+    border: 1px solid rgb(199, 199, 199);
+    border-radius: 5px;
+    font-size: 1vw;
+}
+
+div#my-post button {
+    margin: 0 0 0 10px;
+    padding: 8px 16px;
+    padding: 3px;
+    float: right;
+    border: 0;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #f6bd3a;
+    font-size: 1vw;
+}
+
+.no-category {
+    height: 800px; 
+    padding: 300px 0; 
+    text-align: center; 
+    color: rgb(161, 161, 161);
+}
+
+
+/*------------------------- 여행코스 제작 폼 -------------------------*/
+
+.custom-file {
+    margin-top: 10px;
+}
+
+button {
+    padding: 2px 8px;
+    border: 1px solid rgb(131, 131, 131);
+    border-radius: 8px;
+}
+
+.course-settings {
+    margin-top: 20px; 
+    margin-bottom: 20px; 
+    margin-right: 20px; 
+    border: 1px solid black;
+}
+
+input.course-title {
+    width: 100%;
+    height: 60px; 
+    margin-bottom: 20px;
+    border: 0; 
+    border-bottom: 1px solid rgb(153, 153, 153);
+    outline: none;
+}
+
+.course-name {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 12px;
+    border: 1px solid rgb(158, 158, 158);
+    border-radius: 5px;
+    outline: none;
+}
+
+textarea#subject {
+    width: 100%;
+    height: 200px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    outline: none;
+}
+
+.course-submit {
+    padding: 8px 18px;
+    margin-bottom: 20px; 
+    float: right;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f6bd3a;
+    color: #fff;
+}
+
+.course-enroll {
+    padding: 10px 0;
+    border: 0; 
+    border-radius: 8px;
+    color: #fff;
+    background-color: #f6bd3a;
+    font-size: 18px;
+    outline: none;
+}
+
+.course-enroll:hover {
+    color: #fff;
+    background-color: #27c200;
+}
+
+.course-del {
+    float: right; 
+    margin: 0 10px; 
+    padding: 2px 8px; 
+    border: 0; 
+    border-radius: 8px;
+    background-color: #f6bd3a;
+    color: #fff;
+    font-size: 12px;
+}
+
+.course-div {
+    width: 100%;
+    height: 60px; 
+    margin-top: 20px;
+    margin-bottom: 20px;
+    white-space: nowrap;
+}
+
+.course-num {
+    width: 30px; 
+    height: 30px; 
+    margin: 0 20px; 
+    padding: 3px; 
+    float: left;
+    text-align: center; 
+    border-radius: 100px; 
+    background-color: #f6bd3a; 
+    color: #fff;
+}
+
+.course-comment {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 10px 20px; 
+    float: left;
+    border: 1px solid #f6bd3a; 
+    border-radius: 5px;
+}
+
+.course-comment img {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    object-fit: cover;
+}
+
+.course-comment h5 {
+    font-size: 14px;
+    white-space: normal;
+}
+
+.course-comment span, p {
+    font-size: 12px; 
+    white-space: normal;
+}
+
+/* 카카오맵 css */
+.map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
+.map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
+.map_wrap {position:relative;width:100%;height:650px;}
+#menu_wrap {top:0;left:0;bottom:0;width:100%;height: 240px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
+.bg_white {background:#fff;}
+#menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
+#menu_wrap .option{text-align: center;}
+#menu_wrap .option p {margin:10px 0;}  
+#menu_wrap .option button {margin-left:5px;}
+#placesList li {list-style: none;}
+#placesList .item {position:relative;border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 65px;}
+#placesList .item span {display: block;margin-top:4px;text-align: left;}
+#placesList .item h5, #placesList .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+#placesList .add-local-btn {float: right; margin: 0 10px; padding: 2px 8px; border: 0; border-radius: 8px;background-color: rgb(0, 147, 233);color: #fff;}
+#placesList .add-local-btn:hover {background-color: rgb(0, 117, 185);color: #fff;}
+#placesList .item .info{padding:10px 0 10px 55px;}
+#placesList .info .gray {color:#8a8a8a;}
+#placesList .info .jibun {padding-left:26px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
+#placesList .info .tel {color:#009900;}
+#placesList .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
+#placesList .item .marker_1 {background-position: 0 -10px;}
+#placesList .item .marker_2 {background-position: 0 -56px;}
+#placesList .item .marker_3 {background-position: 0 -102px}
+#placesList .item .marker_4 {background-position: 0 -148px;}
+#placesList .item .marker_5 {background-position: 0 -194px;}
+#placesList .item .marker_6 {background-position: 0 -240px;}
+#placesList .item .marker_7 {background-position: 0 -286px;}
+#placesList .item .marker_8 {background-position: 0 -332px;}
+#placesList .item .marker_9 {background-position: 0 -378px;}
+#placesList .item .marker_10 {background-position: 0 -423px;}
+#placesList .item .marker_11 {background-position: 0 -470px;}
+#placesList .item .marker_12 {background-position: 0 -516px;}
+#placesList .item .marker_13 {background-position: 0 -562px;}
+#placesList .item .marker_14 {background-position: 0 -608px;}
+#placesList .item .marker_15 {background-position: 0 -654px;}
+#pagination {margin:10px auto;text-align: center;}
+#pagination a {display:inline-block;margin-right:10px;}
+#pagination .on {font-weight: bold; cursor: default;color:#777;}
+
+/* ------------------------------------ 여행 뷰 --------------------------------------- */
+
+#view-title {
+    width: 100%;
+    height: 310px;
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+
+#view-title h1 {
+    margin: 100px;
+}
+
+.view-title-btns {
+    width: 100%;
+}
+
+.view-title-btns form {
+    float: right;
+}
+
+.view-title-btn {
+    margin: 0 6px;
+    padding: 8px 18px;
+    color: #fff;
+    background-color: #f6bd3a;
+    border: 0;
+    border-radius: 8px;
+}
+
+#local-info {
+    width: 100%;
+    height: 100%;
+    margin-top: 50px;
+    margin-bottom: 80px;
+}
+
+.local-info-container {
+    width: 70%;
+    height: 100%;
+    margin-bottom: 100px;
+}
+
+.local-info-view {
+    width: 90%;
+    height: 100%;
+    margin: 0 auto;
+    margin-bottom: 60px;
+    border: 1px solid black;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.title-color {
+    color: #fff;
+    background-color: #f6bd3a;
+    border-radius: 8px 8px 0 0;
+}
+
+div#my-title h5 {
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    white-space : nowrap;
+}
+
+.local-info-detail {
+    padding: 20px;
+}
+
+.local-info-detail label, p {
+    font-size: 20px;
+}
+
+.local-info-list {
+    width: 30%;
+    height: 900px;
+    padding: 0 40px 40px 0;
+}
+
+.course-scroll {
+    width: 100%;
+    height: 800px;
+    overflow: auto;
+}
+
+.course-scroll::-webkit-scrollbar {
+    width: 5px; /*스크롤바의 너비*/
+}
+
+.course-scroll::-webkit-scrollbar-thumb {
+    background-color: rgb(194, 216, 235); /*스크롤바의 색상*/
+}
+
+.course-list-container {
+    width: 90%;
+    height: 100px;
+    margin: 0 auto;
+    margin-top: 30px;
+    border: 1px solid black;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.course-list-container:hover .course-list-num {
+    background-color: #ce8832;
+}
+
+.course-list-num {
+    width: 25%;
+    height: 100px;
+    padding: 32px 8px;
+    text-align: center;
+    background-color: #f8b35f;
+    color: #fff;
+    font-size: 22px;
+}
+
+.course-list-body {
+    width: 75%;
+    height: 100px;
+    padding: 36px 30px;
+}
+
+.course-list-body h5 {
+    width: 120px;
+    height: 24px; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    white-space : nowrap;
+}
+
+/* ----------------------------- 마이페이지 여행코스 ---------------------------- */
+
+.course-set {
+    width: 280px; 
+    height: 100%; 
+    margin: 0 auto; 
+    margin-top: 30px; 
+    margin-left: 50px; 
+    margin-right: 50px; 
+    border: 1px solid rgb(204, 204, 204);
+    cursor: pointer;
+}
+
+.course-set-title {
+    width: 100%; 
+    height: 90px; 
+    padding: 30px 20px;
+    background-color: #f9f1b0;
+}
+
+.course-set-title p {
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap;
+}
+
+.course-mini {
+    padding: 20px; 
+    text-align: left;
+}
+
+.course-mini-cell {
+    width: 30px; 
+    height: 30px; 
+    float: left; 
+    padding: 2px; 
+    margin-right: 10px; 
+    text-align: center; 
+    border-radius: 20px; 
+    color: #fff; 
+    background-color: #f9f1b0;
+}
+
+/* ----------------------------------- 마이페이지 게시글 좋아요 ----------------------------------- */
+
+
+.post-comment-center {
+    width: 100%;
+    height: auto;
+    margin-top: 40px;
+    margin-bottom: 180px;
+}
+
+.comment-set {
+    width: 90%;
+    height: auto;
+    margin: 0 auto;
+    margin-top: 40px;
+    border-radius: 16px;
+    border: 1px solid rgb(206, 206, 206);
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.comment-set-title {
+    width: 100%;
+    height: 60px;
+    padding: 14px 20px;
+    background-color: #f9f1b0;
+}
+
+.comment-set-content {
+    width: 100%;
+    height: auto;
+    padding: 20px;
+}
+
+.comment-set-content p, span {
+    font-size: 16px;
+}
+
+.comment-set-content span {
+    color: #007acc;
+}
+
+.post-set {
+    width: 90%;
+    height: auto;
+    margin: 0 auto;
+    margin-top: 40px;
+    border: 1px solid rgb(206, 206, 206);
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.post-set-title {
+    width: 100%;
+    height: 60px;
+    padding: 14px 20px;
+    color: rgb(104, 104, 104);
+    border-bottom: 1px solid rgb(206, 206, 206);
+}
+
+.post-set-title p {
+    width: 60%;
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap;    
+}
+.post-set-content {
+    width: 100%;
+    height: auto;
+    padding: 20px;
+}
+
+.post-set-content p {
+    font-size: 16px;
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap;
+}
+
+.hide-p p {
+    font-size: 16px;
+}
+
+
+/* ---------------------------- 마이페이지 좋아요 찜 ---------------------------- */
+
+
+.like-set-title {
+    background-color: #f6bd3a;
+}

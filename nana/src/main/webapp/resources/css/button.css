@@ -1,0 +1,130 @@
+.greenBtn {
+ 	color : #256d69;
+	border-color: #256d69;
+	background : transparent;
+}
+
+.greenBtn:hover {
+	color: white;
+	background : #256d69;
+}
+
+.yellowBtn {
+	color : white;
+	border-color: #f6bd3a;
+	background : #f6bd3a;
+}
+
+.yellowBtn:hover {
+	color: white;
+	border-color: #d39e34;
+	background :#d39e34;
+}
+
+.yellowBorderBtn {
+ 	color : #f6bd3a;
+	border-color: #f6bd3a;
+	background : transparent;
+}
+
+.yellowBorderBtn:hover {
+	color: black;
+	border-color: #f6bd3a;
+	background :#f6bd3a;
+}
+
+
+.text-yello {
+	color : #f6bd3a;
+}
+
+.likeBtn {
+	color: #626262;
+	border-color: #B0B9BE;
+	background : #fff;
+}
+
+.likeBtn:hover {
+	color : #000;
+	border-color : #F3A2BB;
+	background :white;
+}
+
+.likeBtn:hover .likeIcon {
+	color : #FF1743;
+}
+
+.likedBtn {
+	color : #000;
+	border : #F3A2BB 1px solid;
+	background-color : #FFE2E5;
+}
+
+.likedIcon {
+	color : #FF1743;
+}
+
+.boardIcon {
+	color : #f6bd3a;
+}
+
+.likedBtn:hover {
+	color: #626262;
+	border-color: #B0B9BE;
+	background :#fff;
+}
+
+.likedBtn:hover .likedIcon{
+	color: #626262;
+}
+
+a:hover {
+	color : #ce8832;
+}
+
+/* ---- pagenation css ----  */
+
+/* -- 선택됐을 때 -- */
+.page-item.active .page-link {
+	background-color : #CE8832;
+	border-color: #CE8832;
+}
+
+/*-- 전체적인 컬러 -- */
+a.page-link {
+ color : white;
+ background-color: #F6BD3B;
+}
+
+/*-- 테두리 색 -- */
+.pagination>li>a,
+.pagination>li>span {
+  border: 1px solid #F6BD3B;
+}
+
+/*-- 비활성화 버튼 -- */
+.page-item.disabled .page-link {
+ background-color: #F6BD3B;
+ color: white;
+}
+
+/*-- hover 등 이벤트가 있을 때 색 */
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover {
+    color: white;
+    background-color: #D39E34;
+    border-color: #D39E34;
+}
+
+/* ------------------------------  */
+
+ul#admin-pills a {
+	color: #d39e34;
+}
+
+ul#admin-pills a#active {
+	background-color: #f6bd3a;
+	color:#fff;
+}
