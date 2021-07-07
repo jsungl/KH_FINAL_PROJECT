@@ -1,7 +1,6 @@
-
-<center>
+<p align="center">
 <a href="http://www.nanatravel.r-e.kr/"><img src="https://i.esdrop.com/d/zqwd3cjsbg8t/4zPFFd1Mh8.png"></a>
-</center>
+</p>
 
 ## 목차
 
